@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart City Traffic Analytics — Control Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="signal"><span></span><span></span><span></span></div>
+      <h1>Smart City Traffic</h1>
+      <p>BDA CONTROL DASHBOARD</p>
+    </div>
+    <nav class="toc" id="toc">
+      <a href="#overview"><span class="n">01</span>Overview</a>
+      <a href="#mapreduce"><span class="n">02</span>MapReduce</a>
+      <a href="#clustering"><span class="n">03</span>Clustering</a>
+      <a href="#trends"><span class="n">04</span>Trends</a>
+      <a href="#forecast"><span class="n">05</span>Forecast</a>
+      <a href="#security"><span class="n">06</span>Security</a>
+      <a href="#hotspots"><span class="n">07</span>Hotspots</a>
+    </nav>
+    <div class="sidebar-foot">
+      <span class="dot">●</span> 204,000 records processed<br>
+      Source: CityFlow smart-urban-mobility dataset<br>
+      Engine: PySpark · KMeans · GPT-2
+    </div>
+  </aside>
+
+  <main>
+
+    <!-- ===================== OVERVIEW ===================== -->
+    <section id="overview">
+      <div class="hero">
+        <div class="kicker"><span class="pulse"></span>LIVE PROJECT SUMMARY</div>
+        <h1>Traffic across 100 intersections, twelve city zones, one congestion model.</h1>
+        <p class="sub">This dashboard replays the results of the Smart City Traffic Analytics big-data
+          pipeline: an S3-simulated MapReduce job, a PySpark KMeans congestion classifier, GPT-2 scenario
+          forecasting, a STRIDE threat model for the IoT sensor layer, and a future-hotspot predictor.</p>
+
+        <div class="stat-row" id="stat-row"><!-- filled by JS --></div>
+      </div>
+    </section>
+
+    <!-- ===================== MAPREDUCE ===================== -->
+    <section id="mapreduce">
+      <div class="section-head">
+        <div>
+          <div class="label">TASK 01 · S3 + MAPREDUCE</div>
+          <h2>Per-intersection traffic totals</h2>
+        </div>
+        <div class="desc">204,000 (intersection, vehicle_count) pairs were mapped, shuffled by
+          intersection_id, and reduced to total / average / max / min per intersection.</div>
+      </div>
+
+      <div class="filter-bar">
+        <input type="text" id="mr-search" placeholder="Filter intersection_id…">
+      </div>
+
+      <div class="table-wrap">
+        <table class="data" id="mr-table">
+          <thead>
+            <tr>
+              <th data-key="rank">#</th>
+              <th data-key="intersection_id">Intersection</th>
+              <th data-key="total_vehicles">Total Vehicles</th>
+              <th data-key="average_vehicles">Avg / Reading</th>
+              <th data-key="max_vehicles">Max</th>
+              <th data-key="min_vehicles">Min</th>
+              <th data-key="record_count">Records</th>
+            </tr>
+          </thead>
+          <tbody id="mr-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== CLUSTERING ===================== -->
+    <section id="clustering">
+      <div class="section-head">
+        <div>
+          <div class="label">TASK 02 · PYSPARK KMEANS</div>
+          <h2>Congestion clustering (k = 3)</h2>
+        </div>
+        <div class="desc">Features: congestion_score, density_score, zone index, lane count and average
+          wait time — standardized and clustered into Low / Medium / High congestion.</div>
+      </div>
+
+      <div class="grid grid-3" id="cluster-cards" style="margin-bottom:16px;"><!-- filled by JS --></div>
+
+      <div class="grid grid-2">
+        <figure class="card chart-card">
+          <img src="{{ url_for('static', filename='images/cell3_img3.png') }}" alt="Congestion level distribution pie chart">
+          <figcaption>Cluster share across all 204,000 readings.</figcaption>
+        </figure>
+        <figure class="card chart-card">
+          <img src="{{ url_for('static', filename='images/cell3_img6.png') }}" alt="Vehicle count vs average speed scatter by congestion level">
+          <figcaption>Vehicle count vs. average speed, colored by assigned congestion level.</figcaption>
+        </figure>
+      </div>
+
+      <h3 style="font-size:13px; color:var(--text-dim); font-weight:500; margin:28px 0 10px;">Sample model predictions — INT_001</h3>
+      <div class="table-wrap">
+        <table class="data" id="pred-table">
+          <thead>
+            <tr>
+              <th>Intersection</th>
+              <th>City Zone</th>
+              <th>Vehicle Count</th>
+              <th>Congestion Score</th>
+              <th>Level</th>
+            </tr>
+          </thead>
+          <tbody id="pred-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== TRENDS ===================== -->
+    <section id="trends">
+      <div class="section-head">
+        <div>
+          <div class="label">TASK 03 · MATPLOTLIB</div>
+          <h2>Traffic trends</h2>
+        </div>
+        <div class="desc">Hourly and weekly volume patterns, plus the raw geospatial spread of every
+          intersection colored by congestion level.</div>
+      </div>
+
+      <div class="grid grid-2">
+        <figure class="card chart-card">
+          <img src="{{ url_for('static', filename='images/cell3_img1.png') }}" alt="Traffic volume by hour of day">
+          <figcaption>Peak hour: <b style="color:var(--text)">9:00</b> (≈1,885 avg vehicles). Quietest: <b style="color:var(--text)">22:00</b> (≈177).</figcaption>
+        </figure>
+        <figure class="card chart-card">
+          <img src="{{ url_for('static', filename='images/cell3_img2.png') }}" alt="Traffic volume by day of week">
+          <figcaption>Weekday volume runs ~60% above weekend volume across all zones.</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid grid-2" style="margin-top:16px;">
+        <figure class="card chart-card">
+          <img src="{{ url_for('static', filename='images/cell3_img4.png') }}" alt="Top 10 most congested intersections">
+          <figcaption>Top 10 intersections ranked by average congestion score.</figcaption>
+        </figure>
+        <figure class="card chart-card">
+          <img src="{{ url_for('static', filename='images/cell3_img5.png') }}" alt="Geospatial traffic hotspot map">
+          <figcaption>All 100 intersections plotted by coordinate, colored by congestion level.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================== FORECAST ===================== -->
+    <section id="forecast">
+      <div class="section-head">
+        <div>
+          <div class="label">TASK 04 · GPT-2 SIMULATION</div>
+          <h2>Future traffic scenarios</h2>
+        </div>
+        <div class="desc">Historical stats were fed to a GPT-2 text-generation pipeline to draft three
+          forward-looking traffic scenarios and recommended signal-control responses.</div>
+      </div>
+
+      <div class="grid grid-3" id="scenario-cards"><!-- filled by JS --></div>
+
+      <figure class="card chart-card" style="margin-top:16px;">
+        <img src="{{ url_for('static', filename='images/cell4_img7.png') }}" alt="GPT simulated future traffic scenarios bar chart">
+      </figure>
+    </section>
+
+    <!-- ===================== SECURITY ===================== -->
+    <section id="security">
+      <div class="section-head">
+        <div>
+          <div class="label">TASK 05 · STRIDE ANALYSIS</div>
+          <h2>IoT sensor threat model</h2>
+        </div>
+        <div class="desc">Six STRIDE threat categories evaluated against the traffic sensor network,
+          each with an affected-data mapping and mitigation controls.</div>
+      </div>
+
+      <div class="grid grid-2" style="margin-bottom:24px;">
+        <figure class="card chart-card">
+          <img src="{{ url_for('static', filename='images/cell5_img8.png') }}" alt="STRIDE risk distribution bar chart">
+        </figure>
+        <div class="card">
+          <h3>Risk summary</h3>
+          <div class="meta">6 threat categories evaluated</div>
+          <div id="risk-summary" style="display:flex; flex-direction:column; gap:10px; margin-top:14px;"></div>
+        </div>
+      </div>
+
+      <div id="stride-rows"><!-- filled by JS --></div>
+
+      <h3 style="font-size:13px; color:var(--text-dim); font-weight:500; margin:28px 0 10px;">Recommended security architecture</h3>
+      <div class="layer-stack" id="layer-stack"><!-- filled by JS --></div>
+    </section>
+
+    <!-- ===================== HOTSPOTS ===================== -->
+    <section id="hotspots">
+      <div class="section-head">
+        <div>
+          <div class="label">TASK 06 · GROWTH PROJECTION</div>
+          <h2>Predicted future hotspots</h2>
+        </div>
+        <div class="desc" id="hotspot-desc">Current average congestion per intersection projected forward
+          under an urban-expansion growth assumption to flag tomorrow's critical intersections today.</div>
+      </div>
+
+      <div class="grid grid-2" style="margin-bottom:16px;">
+        <figure class="card chart-card">
+          <img src="{{ url_for('static', filename='images/cell7_img9.png') }}" alt="Predicted future congestion hotspots map">
+        </figure>
+        <div class="card">
+          <h3>Top risk: INT_003</h3>
+          <div class="meta">Financial District</div>
+          <p style="font-size:13px; color:var(--text-dim); margin-top:14px;">
+            Current average of <b style="color:var(--text); font-family:var(--mono);">929</b> vehicles/hour is
+            projected to reach <b style="color:var(--red); font-family:var(--mono);">1,208</b> vehicles/hour —
+            the highest projected congestion score in the network.
+          </p>
+          <p style="font-size:13px; color:var(--text-dim);">Recommended action: expand road capacity, deploy
+            AI-adaptive signal timing, and improve public-transit alternatives in the Financial District and
+            Downtown Core zones.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data" id="hotspot-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th data-key="intersection_id">Intersection</th>
+              <th data-key="city_zone">City Zone</th>
+              <th data-key="avg_vehicles">Current Avg</th>
+              <th data-key="future_avg_vehicles">Projected Avg</th>
+              <th data-key="future_congestion_score">Future Congestion Score</th>
+            </tr>
+          </thead>
+          <tbody id="hotspot-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="page-foot">
+      <span>Smart City Traffic Analytics · Big Data Analytics Project</span>
+      <span>Rendered from notebook results · Flask + vanilla JS</span>
+    </footer>
+
+  </main>
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
