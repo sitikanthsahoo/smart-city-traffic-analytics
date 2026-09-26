@@ -6,7 +6,7 @@ The project processes **204,000+ traffic records** across **100 intersections an
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 Modern cities generate large amounts of traffic data through IoT sensors, cameras, GPS devices, and other connected systems. Analyzing this data can help identify congestion patterns and support better traffic-management decisions.
 
@@ -24,7 +24,7 @@ This project builds an end-to-end analytics pipeline that:
 
 ---
 
-## 🎯 Objectives
+## Objectives
 
 The main objectives of the project are:
 
@@ -39,7 +39,7 @@ The main objectives of the project are:
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```text
                     ┌──────────────────────┐
@@ -90,7 +90,7 @@ The main objectives of the project are:
 
 ---
 
-## 📊 Project Highlights
+## Project Highlights
 
 ### 1. Big Data Processing
 
@@ -199,7 +199,7 @@ The project also proposes security controls for protecting the IoT data pipeline
 
 ---
 
-## 🖥️ Interactive Dashboard
+## Interactive Dashboard
 
 The final version includes a Flask-based web dashboard with **7 major sections**.
 
@@ -310,7 +310,7 @@ This section helps highlight intersections that require additional traffic-manag
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 smart-city-traffic-analytics/
@@ -361,7 +361,7 @@ smart-city-traffic-analytics/
         └── screenshots/```
 
 
-## 📚 Dataset
+## Dataset
 
 ### Dataset Source
 
@@ -396,7 +396,7 @@ The dataset contains traffic and IoT-related attributes such as:
 
 ---
 
-## 🔄 Project Evolution
+## Project Evolution
 
 The project was developed incrementally through three major versions.
 
@@ -448,7 +448,7 @@ Implemented:
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the Repository
 
@@ -529,7 +529,7 @@ The system produces:
 
 ---
 
-## 🔐 Security Architecture
+## Security Architecture
 
 The security analysis focuses on protecting the traffic IoT data pipeline.
 
@@ -567,7 +567,7 @@ Security controls considered include:
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 This project is primarily an academic and analytical prototype.
 
@@ -581,7 +581,7 @@ Some limitations include:
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 Possible future improvements include:
 
@@ -600,7 +600,7 @@ Possible future improvements include:
 
 ---
 
-## 🎓 Academic Concepts Demonstrated
+## Academic Concepts Demonstrated
 
 This project combines several important Computer Science and Big Data concepts:
 
@@ -621,7 +621,7 @@ This project combines several important Computer Science and Big Data concepts:
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Sitikanth Sahoo**
 
@@ -633,7 +633,7 @@ Computer Science & Engineering Student
 
 ---
 
-## ⭐ Project Summary
+## Project Summary
 
 **Smart City Traffic Analytics Dashboard** demonstrates how Big Data processing, Machine Learning, AI, Web Development, and IoT Security can be combined into a single smart-city analytics platform.
 
